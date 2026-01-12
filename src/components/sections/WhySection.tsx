@@ -27,14 +27,14 @@ const WhySection = () => {
   return (
     <section className="section-padding bg-card">
       <div className="container-narrow">
-        <div className="mb-16">
+        <div className="mb-12 md:mb-16">
           <span className="label-mono">Why Nerivo Labs</span>
           <h2 className="heading-section mt-4 max-w-xl">
             A different kind of design partner.
           </h2>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {reasons.map((reason) => (
             <div key={reason.title} className="group">
               <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
