@@ -1,3 +1,6 @@
+import { motion } from "framer-motion";
+import { useScrollAnimation, staggerContainer, staggerItem } from "@/hooks/useScrollAnimation";
+
 const services = [
   {
     title: "Product Design",
@@ -22,20 +25,34 @@ const services = [
 ];
 
 const ServicesSection = () => {
+  const { ref, isInView } = useScrollAnimation();
+
   return (
     <section id="services" className="section-padding">
       <div className="container-narrow">
-        <div className="mb-12 md:mb-16">
+        <motion.div 
+          ref={ref}
+          className="mb-12 md:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <span className="label-mono">What we build</span>
           <h2 className="heading-section mt-4 max-w-xl">
             Crafting experiences from product to brand.
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-px bg-divider grid-cols-1 sm:grid-cols-2">
+        <motion.div 
+          className="grid gap-px bg-divider grid-cols-1 sm:grid-cols-2"
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {services.map((service) => (
-            <div
+            <motion.div
               key={service.number}
+              variants={staggerItem}
               className="bg-background p-6 sm:p-8 md:p-12 group hover:bg-elevated transition-colors duration-300"
             >
               <span className="text-xs font-medium text-muted-foreground">
@@ -43,9 +60,9 @@ const ServicesSection = () => {
               </span>
               <h3 className="heading-card mt-4">{service.title}</h3>
               <p className="text-caption mt-3">{service.description}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

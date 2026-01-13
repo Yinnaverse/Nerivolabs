@@ -1,4 +1,6 @@
 import { FlaskConical, Lightbulb, Users, Layers } from "lucide-react";
+import { motion } from "framer-motion";
+import { useScrollAnimation, staggerContainer, staggerItem } from "@/hooks/useScrollAnimation";
 
 const reasons = [
   {
@@ -24,27 +26,40 @@ const reasons = [
 ];
 
 const WhySection = () => {
+  const { ref, isInView } = useScrollAnimation();
+
   return (
     <section className="section-padding bg-card">
       <div className="container-narrow">
-        <div className="mb-12 md:mb-16">
+        <motion.div 
+          ref={ref}
+          className="mb-12 md:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <span className="label-mono">Why Nerivo Labs</span>
           <h2 className="heading-section mt-4 max-w-xl">
             A different kind of design partner.
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <motion.div 
+          className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {reasons.map((reason) => (
-            <div key={reason.title} className="group">
+            <motion.div key={reason.title} className="group" variants={staggerItem}>
               <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
                 <reason.icon className="w-5 h-5" />
               </div>
               <h3 className="text-base font-medium text-hero">{reason.title}</h3>
               <p className="text-caption mt-2">{reason.description}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

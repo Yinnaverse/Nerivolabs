@@ -4,6 +4,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const faqs = [
   {
@@ -39,10 +41,18 @@ const faqs = [
 ];
 
 const FAQSection = () => {
+  const { ref, isInView } = useScrollAnimation();
+
   return (
     <section id="faq" className="section-padding bg-background">
       <div className="container-narrow">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <motion.div 
+          ref={ref}
+          className="grid gap-12 lg:grid-cols-12 lg:gap-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
           {/* Section Header */}
           <div className="lg:col-span-4">
             <span className="label-mono">FAQ</span>
@@ -73,7 +83,7 @@ const FAQSection = () => {
               ))}
             </Accordion>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

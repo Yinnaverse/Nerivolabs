@@ -1,3 +1,6 @@
+import { motion } from "framer-motion";
+import { useScrollAnimation, staggerContainer, staggerItem } from "@/hooks/useScrollAnimation";
+
 const testimonials = [
   {
     quote:
@@ -23,22 +26,34 @@ const testimonials = [
 ];
 
 const TestimonialsSection = () => {
+  const { ref, isInView } = useScrollAnimation();
+
   return (
     <section className="section-padding bg-card">
       <div className="container-narrow">
-        {/* Section Header */}
-        <div className="mb-16">
+        <motion.div 
+          ref={ref}
+          className="mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <span className="label-mono">What clients say</span>
           <h2 className="heading-section mt-4 max-w-xl">
             Trusted by teams building what's next.
           </h2>
-        </div>
+        </motion.div>
 
-        {/* Testimonials Grid */}
-        <div className="grid gap-8 md:gap-6 lg:grid-cols-3">
+        <motion.div 
+          className="grid gap-8 md:gap-6 lg:grid-cols-3"
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {testimonials.map((testimonial, index) => (
-            <div
+            <motion.div
               key={index}
+              variants={staggerItem}
               className="group p-8 bg-background border border-border/50 rounded-sm transition-all duration-300 hover:border-border hover:shadow-sm"
             >
               <blockquote className="space-y-6">
@@ -54,9 +69,9 @@ const TestimonialsSection = () => {
                   </div>
                 </footer>
               </blockquote>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

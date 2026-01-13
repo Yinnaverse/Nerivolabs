@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
+import Logo from "@/components/Logo";
 
 const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-divider">
       <div className="container-narrow">
         <nav className="flex items-center justify-between h-16">
-          <a href="/" className="text-lg font-medium tracking-tight text-hero">
-            Nerivo Labs
+          <a href="/" className="flex items-center gap-2">
+            <Logo className="h-7 w-auto" />
+            <span className="text-lg font-medium tracking-tight text-hero">Nerivo Labs</span>
           </a>
           
           <div className="hidden md:flex items-center gap-8">
