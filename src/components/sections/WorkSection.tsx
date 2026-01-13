@@ -1,6 +1,8 @@
 import workFintech from "@/assets/work-fintech.jpg";
 import workWellness from "@/assets/work-wellness.jpg";
 import workSaas from "@/assets/work-saas.jpg";
+import { motion } from "framer-motion";
+import { useScrollAnimation, staggerContainer, staggerItem } from "@/hooks/useScrollAnimation";
 
 interface Project {
   title: string;
@@ -27,10 +29,18 @@ const projects: Project[] = [
 ];
 
 const WorkSection = () => {
+  const { ref, isInView } = useScrollAnimation();
+
   return (
     <section id="work" className="section-padding">
       <div className="container-narrow">
-        <div className="mb-16 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <motion.div 
+          ref={ref}
+          className="mb-16 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div>
             <span className="label-mono">Selected Work</span>
             <h2 className="heading-section mt-4">Recent projects.</h2>
@@ -41,14 +51,20 @@ const WorkSection = () => {
           >
             View all work
           </a>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <motion.div 
+          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {projects.map((project) => (
-            <a
+            <motion.a
               key={project.title}
               href="#"
               className="group block"
+              variants={staggerItem}
             >
               <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden mb-5">
                 <img
@@ -63,9 +79,9 @@ const WorkSection = () => {
               <h3 className="heading-card mt-1 group-hover:text-body transition-colors duration-200">
                 {project.title}
               </h3>
-            </a>
+            </motion.a>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

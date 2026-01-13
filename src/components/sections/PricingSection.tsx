@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { useScrollAnimation, staggerContainer, staggerItem } from "@/hooks/useScrollAnimation";
 
 const pricingTiers = [
   {
@@ -56,27 +58,38 @@ const brandServices = [
 ];
 
 const PricingSection = () => {
+  const { ref, isInView } = useScrollAnimation();
+
   return (
     <section id="pricing" className="section-padding bg-background border-t border-divider">
       <div className="container-narrow">
-        {/* Section Header */}
-        <div className="max-w-2xl mb-12 md:mb-16">
+        <motion.div 
+          ref={ref}
+          className="max-w-2xl mb-12 md:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <span className="label-mono">Pricing</span>
           <h2 className="heading-section mt-4 mb-4">Pricing, with clarity.</h2>
           <p className="text-body text-base sm:text-lg">
             Straightforward pricing for design work that's built to last.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Pricing Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 mb-12 md:mb-16">
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 mb-12 md:mb-16"
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {pricingTiers.map((tier, index) => (
-            <div
+            <motion.div
               key={index}
+              variants={staggerItem}
               className="group relative p-6 sm:p-8 bg-card border border-border/50 rounded-sm transition-all duration-300 hover:border-border hover:shadow-sm"
             >
               <div className="flex flex-col h-full">
-                {/* Tier Header */}
                 <div className="mb-6">
                   <h3 className="text-base sm:text-lg font-medium text-foreground mb-2">
                     {tier.title}
@@ -84,10 +97,8 @@ const PricingSection = () => {
                   <p className="text-body text-sm">{tier.description}</p>
                 </div>
 
-                {/* Divider */}
                 <div className="w-8 h-px bg-border mb-6" />
 
-                {/* Features */}
                 <ul className="space-y-3 flex-grow">
                   {tier.features.map((feature, featureIndex) => (
                     <li
@@ -99,7 +110,6 @@ const PricingSection = () => {
                   ))}
                 </ul>
 
-                {/* CTA */}
                 <div className="pt-6 mt-auto">
                   <Button
                     variant="minimal"
@@ -113,12 +123,16 @@ const PricingSection = () => {
                   </Button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Brand Identity Add-on */}
-        <div className="border-t border-border/50 pt-8 md:pt-12">
+        <motion.div 
+          className="border-t border-border/50 pt-8 md:pt-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+        >
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-8">
             <div className="lg:max-w-md">
               <h3 className="text-base sm:text-lg font-medium text-foreground mb-2">
@@ -137,7 +151,7 @@ const PricingSection = () => {
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

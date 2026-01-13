@@ -1,8 +1,19 @@
+import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+
 const AboutSection = () => {
+  const { ref, isInView } = useScrollAnimation();
+
   return (
     <section id="about" className="section-padding bg-card">
       <div className="container-narrow">
-        <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+        <motion.div 
+          ref={ref}
+          className="grid gap-12 md:grid-cols-2 md:gap-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
           <div>
             <span className="label-mono">About</span>
             <h2 className="heading-section mt-4">
@@ -22,7 +33,7 @@ const AboutSection = () => {
               an opportunity to build something that matters.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
