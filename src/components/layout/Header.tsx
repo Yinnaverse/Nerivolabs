@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/Logo";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Header = () => {
   return (
@@ -23,9 +24,12 @@ const Header = () => {
             </a>
           </div>
 
-          <Button variant="primary" size="sm" className="rounded-full">
-            Start a project
-          </Button>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <Button variant="primary" size="sm" className="rounded-full">
+              Start a project
+            </Button>
+          </div>
         </nav>
       </div>
     </header>
